@@ -30,8 +30,6 @@ namespace HallOfFame.Model
         ///     Уровень навыка.
         /// </summary>
         [Column("level", TypeName = "binary")]
-        [StringLength(2, MinimumLength = 1,
-            ErrorMessage = "Длина уровня должна быть в диапазоне от {2} до {1} символов.")]
         [Required(ErrorMessage = "Поле не может быть пустым.")]
         [Range(1, 10)]
         public byte Level { get; set; }

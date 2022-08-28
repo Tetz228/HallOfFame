@@ -1,4 +1,8 @@
 using HallOfFame;
+using HallOfFame.Repositorys;
+using HallOfFame.Repositorys.Interfaces;
+using HallOfFame.Services;
+using HallOfFame.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -9,6 +13,8 @@ builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<HallOfFameContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 //Настройка приложения.

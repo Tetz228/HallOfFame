@@ -10,7 +10,6 @@ namespace HallOfFame.Dtos.Skill
         /// <summary>
         ///     Идентификатор навыка.
         /// </summary>
-        [Required]
         [Key]
         public long Id { get; set; }
 
@@ -25,8 +24,6 @@ namespace HallOfFame.Dtos.Skill
         /// <summary>
         ///     Уровень навыка.
         /// </summary>
-        [StringLength(2, MinimumLength = 1,
-            ErrorMessage = "Длина уровня должна быть в диапазоне от {2} до {1} символов.")]
         [Required(ErrorMessage = "Поле не может быть пустым.")]
         [Range(1, 10)]
         public byte Level { get; set; }

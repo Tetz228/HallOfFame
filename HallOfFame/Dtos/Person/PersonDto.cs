@@ -11,7 +11,6 @@ namespace HallOfFame.Dtos.Person
         /// <summary>
         ///     Идентификатор сотрудника.
         /// </summary>
-        [Required]
         [Key]
         public long Id { get; set; }
 
@@ -34,6 +33,7 @@ namespace HallOfFame.Dtos.Person
         /// <summary>
         ///     Навыки сотрудника.
         /// </summary>
+        [Required(ErrorMessage = "Поле не может быть пустым.")]
         public IEnumerable<SkillDto> Skills { get; set; }
     }
 }

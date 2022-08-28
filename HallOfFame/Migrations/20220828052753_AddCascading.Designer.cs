@@ -4,6 +4,7 @@ using HallOfFame;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HallOfFame.Migrations
 {
     [DbContext(typeof(HallOfFameContext))]
-    partial class HallOfFameContextModelSnapshot : ModelSnapshot
+    [Migration("20220828052753_AddCascading")]
+    partial class AddCascading
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +61,7 @@ namespace HallOfFame.Migrations
 
                     b.Property<byte[]>("Level")
                         .IsRequired()
-                        .HasColumnType("binary(2)")
+                        .HasColumnType("binary(1)")
                         .HasColumnName("level");
 
                     b.Property<string>("Name")
