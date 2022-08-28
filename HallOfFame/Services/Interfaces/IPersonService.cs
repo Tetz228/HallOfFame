@@ -1,5 +1,5 @@
-﻿using HallOfFame.Dtos.Person;
-using HallOfFame.Model;
+﻿using HallOfFame.Db.Model;
+using HallOfFame.Dtos.Person;
 
 namespace HallOfFame.Services.Interfaces
 {
@@ -11,35 +11,36 @@ namespace HallOfFame.Services.Interfaces
         /// <summary>
         ///     Создание нового сотрудника.
         /// </summary>
-        /// <param name="personDto">Класс DTO сотрудника.</param>
-        /// <returns>Класс DTO сотрудника.</returns>
-        public PersonDto Create(PersonDto personDto);
-
+        /// <param name="personDto">DTO сотрудника.</param>
+        /// <returns>DTO сотрудника.</returns>
+        public Person CreatePerson(PersonDto personDto);
+        
         /// <summary>
         ///     Обновление сотрудника.
         /// </summary>
-        /// <param name="personDto">Класс DTO сотрудника.</param>
-        /// <returns>Класс DTO сотрудника.</returns>
-        public PersonDto Update(PersonDto personDto);
+        /// <param name="id">Идентификатор сотрудника.</param>
+        /// <param name="personDto">DTO сотрудника.</param>
+        /// <returns>DTO сотрудника.</returns>
+        public Person UpdatePerson(long id, PersonDto personDto);
 
         /// <summary>
-        ///     Удалить сотрудника.
+        ///     Удаление сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <returns>Класс сотрудника.</returns>
-        public Person Delete(long id);
+        /// <returns>Сотрудник.</returns>
+        public Person DeletePerson(long id);
 
         /// <summary>
-        ///     Получить сотрудника.
+        ///     Получение сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <returns>Класс DTO сотрудника.</returns>
-        public PersonDto Get(long id);
+        /// <returns>DTO сотрудника.</returns>
+        public Person GetPerson(long id);
 
         /// <summary>
-        ///     Получить всех сотрудников.
+        ///     Получение всех сотрудников.
         /// </summary>
-        /// <returns>Коллекция сотрудников.</returns>
-        public IEnumerable<Person> Get();
+        /// <returns>Сотрудники.</returns>
+        public IEnumerable<Person> GetAll();
     }
 }

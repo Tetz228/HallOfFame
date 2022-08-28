@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace HallOfFame.Migrations
+namespace HallOfFame.Db.Migrations
 {
     public partial class AddCascading : Migration
     {

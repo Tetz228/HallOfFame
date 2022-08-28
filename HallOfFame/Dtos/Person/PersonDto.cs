@@ -4,9 +4,9 @@ using HallOfFame.Dtos.Skill;
 namespace HallOfFame.Dtos.Person
 {
     /// <summary>
-    ///     Класс DTO сотрудника.
+    ///     DTO сотрудника.
     /// </summary>
-    public class PersonDto
+    public record PersonDto
     {
         /// <summary>
         ///     Идентификатор сотрудника.

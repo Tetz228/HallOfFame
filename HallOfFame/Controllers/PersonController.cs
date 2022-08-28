@@ -1,4 +1,5 @@
 ﻿using HallOfFame.Dtos.Person;
+using HallOfFame.Extensions.Model;
 using HallOfFame.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,64 +8,80 @@ namespace HallOfFame.Controllers
     /// <summary>
     ///     Контроллер для взаимодействия с сотрудниками.
     /// </summary>
-    [Route("api/")]
+    [Route("[controller]/[action]")]
     [ApiController]
-    public class PersonController : Controller
+    public class PersonController : ControllerBase
     {
         /// <summary>
-        ///     Интерфейс сервиса сотрудника.
+        ///     Сервисы для взаимодействия с сотрудниками.
         /// </summary>
         private readonly IPersonService _personService;
 
+        /// <summary>
+        ///     Контроллер для взаимодействия с сотрудниками.
+        /// </summary>
+        /// <param name="personService">Сервисы для взаимодействия с сотрудниками.</param>
         public PersonController(IPersonService personService)
         {
             _personService = personService;
         }
 
         /// <summary>
-        ///     Создание сотрудника.
+        ///     Добавление нового сотрудника.
         /// </summary>
-        /// <param name="personDto">Класс DTO сотрудника.</param>
-        /// <returns>Результат создания сотрудника.</returns>
+        /// <param name="personDto">DTO сотрудника.</param>
+        /// <returns>Нового сотрудника.</returns>
         [HttpPost("person")]
-        public ActionResult<PersonDto> Create(PersonDto personDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<PersonDto> CreatePerson(PersonDto personDto)
         {
-            var person = _personService.Create(personDto);
+            var person = _personService.CreatePerson(personDto);
 
-            if (person == null) return BadRequest(person);
+            if (person == null)
+            {
+                return Ok();
+            }
 
-            return Ok(person);
+            return CreatedAtAction(nameof(GetPerson), new {id = person.Id}, person.ToDto());
         }
 
         /// <summary>
         ///     Обновление сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <param name="personDto">Класс DTO сотрудника.</param>
-        /// <returns>Результат обновления сотрудника.</returns>
+        /// <param name="personDto">DTO сотрудника.</param>
+        /// <returns>Обновленный сотрудник.</returns>
         [HttpPut("person/{id}")]
-        public ActionResult<PersonDto> Update(long id, PersonDto personDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<PersonDto> UpdatePerson(long id, PersonDto personDto)
         {
-            personDto.Id = id;
+            var person = _personService.UpdatePerson(id, personDto);
 
-            var person = _personService.Update(personDto);
+            if (person == null)
+            {
+                return NotFound(person);
+            }
 
-            if (person == null) return NotFound(person);
-
-            return Ok(person);
+            return Ok(person.ToDto());
         }
 
         /// <summary>
         ///     Удаление сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <returns>Результат удаления сотрудника.</returns>
         [HttpDelete("person/{id}")]
-        public ActionResult Delete(long id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult DeletePerson(long id)
         {
-            var person = _personService.Delete(id);
+            var person = _personService.DeletePerson(id);
 
-            if (person == null) return NotFound();
+            if (person == null)
+            {
+                return NotFound();
+            }
 
             return NoContent();
         }
@@ -73,30 +90,40 @@ namespace HallOfFame.Controllers
         ///     Получение сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <param name="personDto">Класс DTO сотрудника.</param>
-        /// <returns>Результат получения сотрудника.</returns>
+        /// <param name="personDto">DTO сотрудника.</param>
+        /// <returns>Cотрудник.</returns>
         [HttpGet("person/{id}")]
-        public ActionResult<PersonDto> Get(long id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<PersonDto> GetPerson(long id)
         {
-            var person = _personService.Get(id);
+            var person = _personService.GetPerson(id);
 
-            if (person == null) return NotFound(person);
+            if (person == null)
+            {
+                return NotFound(person);
+            }
 
-            return Ok(person);
+            return Ok(person.ToDto());
         }
 
         /// <summary>
-        ///     Получить сотрудников.
+        ///     Получение сотрудников.
         /// </summary>
-        /// <returns>Результат получения коллекции сотрудников.</returns>
+        /// <returns>Сотрудники.</returns>
         [HttpGet("persons")]
-        public ActionResult<IEnumerable<PersonDto>> Get()
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<PersonDto>> GetAll()
         {
-            var persons = _personService.Get();
+            var persons = _personService.GetAll();
 
-            if (!persons.Any()) return NotFound(persons);
+            if (!persons.Any())
+            {
+                return NotFound(persons);
+            }
 
-            return Ok(persons);
+            return Ok(persons.ToDto());
         }
     }
 }

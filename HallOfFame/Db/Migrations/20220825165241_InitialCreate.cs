@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace HallOfFame.Migrations
+namespace HallOfFame.Db.Migrations
 {
     public partial class InitialCreate : Migration
     {

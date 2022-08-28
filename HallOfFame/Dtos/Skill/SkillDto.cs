@@ -3,9 +3,9 @@
 namespace HallOfFame.Dtos.Skill
 {
     /// <summary>
-    ///     Класс DTO навыка.
+    ///     DTO навыка.
     /// </summary>
-    public class SkillDto
+    public record SkillDto
     {
         /// <summary>
         ///     Идентификатор навыка.
@@ -17,7 +17,7 @@ namespace HallOfFame.Dtos.Skill
         ///     Название навыка.
         /// </summary>
         [StringLength(30, MinimumLength = 2,
-            ErrorMessage = "Длина имени должна быть в диапазоне от {2} до {1} символов.")]
+            ErrorMessage = "Длина наименования должна быть в диапазоне от {2} до {1} символов.")]
         [Required(ErrorMessage = "Поле не может быть пустым.")]
         public string Name { get; set; }
 
