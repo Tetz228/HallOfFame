@@ -5,37 +5,52 @@ using HallOfFame.Services;
 using HallOfFame.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NLog;
 using NLog.Web;
 
-var builder = WebApplication.CreateBuilder(args);
-//Настройка сервисов.
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-builder.Services.AddSwaggerGen(genOptions =>
+try
 {
-    genOptions.SwaggerDoc("v1", new OpenApiInfo {Title = "HallOfFame", Version = "v1"});
-});
-builder.Services.AddControllers();
-builder.Services.AddDbContext<HallOfFameContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IPersonService, PersonService>();
-builder.Services.AddScoped<IPersonRepository, PersonRepository>();
-//Подключение логирования.
+    var builder = WebApplication.CreateBuilder(args);
+    //Настройка сервисов.
 
-builder.Logging.ClearProviders();
-builder.Host.UseNLog();
-
-var app = builder.Build();
-//Настройка приложения.
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    builder.Services.AddSwaggerGen(genOptions =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
+        genOptions.SwaggerDoc("v1", new OpenApiInfo {Title = "HallOfFame", Version = "v1"});
     });
-}
+    builder.Services.AddControllers();
+    builder.Services.AddDbContext<HallOfFameContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddScoped<IPersonService, PersonService>();
+    builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+    //Подключение логирования.
 
-app.UseRouting();
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-app.Run();
+    builder.Logging.ClearProviders();
+    builder.Host.UseNLog();
+
+    var app = builder.Build();
+    //Настройка приложения.
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
+        });
+    }
+
+    app.UseRouting();
+    app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+    app.Run();
+}
+catch (Exception exception)
+{
+    logger.Error(exception, "Программа остановлена из-за исключения!");
+}
+finally
+{
+    LogManager.Shutdown();
+}

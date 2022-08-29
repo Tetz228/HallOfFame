@@ -18,26 +18,33 @@ namespace HallOfFame.Repositories
         private readonly HallOfFameContext _context;
 
         /// <summary>
+        ///     Логгер.
+        /// </summary>
+        private readonly ILogger<PersonRepository> _logger;
+
+        /// <summary>
         ///     Репозиторий сотрудника для взаимодействия с базой данных.
         /// </summary>
         /// <param name="context">Контекст базы данных.</param>
-        public PersonRepository(HallOfFameContext context)
+        /// <param name="logger">Логгер.</param>
+        public PersonRepository(HallOfFameContext context, ILogger<PersonRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <inheritdoc />
-        public Person AddPerson(Person person)
+        public async Task<Person> AddPerson(Person person)
         {
-            _context.Persons.Add(person);
-
+            await _context.Persons.AddAsync(person);
+            
             return person;
         }
 
         /// <inheritdoc />
-        public Person UpdatePerson(long id, Person updatingPerson)
+        public async Task<Person> UpdatePerson(long id, Person updatingPerson)
         {
-            var foundedPerson = GetPerson(id);
+            var foundedPerson = await GetPerson(id);
 
             if (foundedPerson == null)
             {
@@ -54,9 +61,9 @@ namespace HallOfFame.Repositories
         }
         
         /// <inheritdoc />
-        public Person DeletePerson(long id)
+        public async Task<Person> DeletePerson(long id)
         {
-            var foundedPerson = GetPerson(id);
+            var foundedPerson = await GetPerson(id);
 
             if (foundedPerson == null)
             {
@@ -69,9 +76,9 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public Person GetPerson(long id)
+        public async Task<Person> GetPerson(long id)
         {
-            var person = _context.Persons.Include(person => person.Skills).SingleOrDefault(person => person.Id == id);
+            var person = await _context.Persons.Include(person => person.Skills).SingleOrDefaultAsync(person => person.Id == id);
 
             return person;
         }
@@ -85,9 +92,17 @@ namespace HallOfFame.Repositories
         }
         
         /// <inheritdoc />
-        public void SaveChanges()
+        public async void SaveChanges()
         {
-            _context.SaveChanges();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException exception)
+            {
+                _logger.LogError(exception,"Ошибка при сохранении данных в базу данных!");
+                throw;
+            }
         }
     }
 }
