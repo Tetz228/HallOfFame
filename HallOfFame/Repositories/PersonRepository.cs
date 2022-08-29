@@ -36,59 +36,99 @@ namespace HallOfFame.Repositories
         /// <inheritdoc />
         public async Task<Person> AddPerson(Person person)
         {
-            await _context.Persons.AddAsync(person);
-            
-            return person;
+            try
+            {
+                await _context.Persons.AddAsync(person);
+                
+                return person;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,"Ошибка при добавлении нового сотрудника!");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public async Task<Person> UpdatePerson(long id, Person updatingPerson)
         {
-            var foundedPerson = await GetPerson(id);
-
-            if (foundedPerson == null)
+            try
             {
+                var foundedPerson = await GetPerson(id);
+
+                if (foundedPerson == null)
+                {
+                    return foundedPerson;
+                }
+
+                foundedPerson.Name = foundedPerson.Name.ToCheckingAndUpdatingString(updatingPerson.Name);
+                foundedPerson.DisplayName = foundedPerson.DisplayName.ToCheckingAndUpdatingString(updatingPerson.DisplayName);
+                foundedPerson.Skills  = foundedPerson.Skills.ToUpdateSkills(updatingPerson.Skills);
+            
+                _context.Persons.Update(foundedPerson);
+            
                 return foundedPerson;
             }
-
-            foundedPerson.Name = foundedPerson.Name.ToCheckingAndUpdatingString(updatingPerson.Name);
-            foundedPerson.DisplayName = foundedPerson.DisplayName.ToCheckingAndUpdatingString(updatingPerson.DisplayName);
-            foundedPerson.Skills  = foundedPerson.Skills.ToUpdateSkills(updatingPerson.Skills);
-            
-            _context.Persons.Update(foundedPerson);
-            
-            return foundedPerson;
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,"Ошибка при изменении сотрудника!");
+                throw;
+            }
         }
         
         /// <inheritdoc />
         public async Task<Person> DeletePerson(long id)
         {
-            var foundedPerson = await GetPerson(id);
-
-            if (foundedPerson == null)
+            try
             {
+                var foundedPerson = await GetPerson(id);
+
+                if (foundedPerson == null)
+                {
+                    return foundedPerson;
+                }
+
+                _context.Persons.Remove(foundedPerson);
+
                 return foundedPerson;
             }
-
-            _context.Persons.Remove(foundedPerson);
-
-            return foundedPerson;
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,"Ошибка при удалении сотрудника!");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public async Task<Person> GetPerson(long id)
         {
-            var person = await _context.Persons.Include(person => person.Skills).SingleOrDefaultAsync(person => person.Id == id);
+            try
+            {
+                var person = await _context.Persons.Include(person => person.Skills).SingleOrDefaultAsync(person => person.Id == id);
 
-            return person;
+                return person;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,"Ошибка при поиске сотрудника!");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public IEnumerable<Person> GetAll()
         {
-            var persons = _context.Persons.Include(person => person.Skills).AsEnumerable();
+            try
+            {
+                var persons = _context.Persons.Include(person => person.Skills).AsEnumerable();
 
-            return persons;
+                return persons;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,"Ошибка при поиске сотрудников!");
+                throw;
+            }
         }
         
         /// <inheritdoc />
@@ -98,9 +138,9 @@ namespace HallOfFame.Repositories
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException exception)
+            catch (Exception exception)
             {
-                _logger.LogError(exception,"Ошибка при сохранении данных в базу данных!");
+                _logger.LogError(exception,"Ошибка при сохранении данных!");
                 throw;
             }
         }

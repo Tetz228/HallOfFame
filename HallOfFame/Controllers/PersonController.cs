@@ -1,5 +1,4 @@
-﻿using HallOfFame.Db.Model;
-using HallOfFame.Dtos.Person;
+﻿using HallOfFame.Dtos.Person;
 using HallOfFame.Extensions.Model;
 using HallOfFame.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
