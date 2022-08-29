@@ -1,7 +1,6 @@
 ﻿using HallOfFame.Db.Model;
 using HallOfFame.Dtos.Person;
 using HallOfFame.Extensions.Dtos;
-using HallOfFame.Extensions.Model;
 using HallOfFame.Repositories.Interfaces;
 using HallOfFame.Services.Interfaces;
 

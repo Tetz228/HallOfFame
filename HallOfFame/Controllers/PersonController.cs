@@ -43,7 +43,7 @@ namespace HallOfFame.Controllers
                 return Ok();
             }
 
-            return CreatedAtAction(nameof(GetPerson), new {id = person.Id}, person.ToDto());
+            return CreatedAtAction(nameof(GetPerson), new { id = person.Id }, person.ToDto());
         }
 
         /// <summary>

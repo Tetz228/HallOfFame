@@ -1,5 +1,6 @@
 ﻿using HallOfFame.Db.Model;
 using HallOfFame.Dtos.Skill;
+using HallOfFame.Extensions.DataTypes;
 
 namespace HallOfFame.Extensions.Model
 {
@@ -21,6 +22,46 @@ namespace HallOfFame.Extensions.Model
                 Name = skill.Name,
                 Level = skill.Level
             };
+        }
+        
+        /// <summary>
+        ///     Обновление навыков сотрудника.
+        /// </summary>
+        /// <param name="foundedSkill">Найденные навыки сотрудника.</param>
+        /// <param name="updatingSkills">Обновленные навыки сотрудника.</param>
+        /// <returns>Обновленные навыки.</returns>
+        public static IEnumerable<Skill> ToUpdateSkills(this IEnumerable<Skill> foundedSkill, IEnumerable<Skill> updatingSkills)
+        {
+            var skills = foundedSkill.ToList();
+            
+            foreach (var updatedSkill in updatingSkills)
+            {
+                if(updatedSkill.Id == 0)
+                {
+                    skills.Add(updatedSkill);
+                    
+                    foundedSkill = skills;
+                    
+                    continue;
+                }
+                
+                var oldSkill = skills.First(skill => skill.Id == updatedSkill.Id);
+                
+                UpdateSkill(oldSkill, updatedSkill);
+            }
+
+            return foundedSkill;
+        }
+        
+        /// <summary>
+        ///     Обновление навыка.
+        /// </summary>
+        /// <param name="oldSkill">Старый навык.</param>
+        /// <param name="updatedSkill">Обновленный навык.</param>
+        private static void UpdateSkill(Skill oldSkill, Skill updatedSkill)
+        {
+            oldSkill.Name = oldSkill.Name.ToCheckingAndUpdatingString(updatedSkill.Name);
+            oldSkill.Level = oldSkill.Level.ToCheckingAndUpdatingByte(updatedSkill.Level);
         }
     }
 }

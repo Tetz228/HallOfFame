@@ -1,5 +1,7 @@
 ﻿using HallOfFame.Db;
 using HallOfFame.Db.Model;
+using HallOfFame.Extensions.DataTypes;
+using HallOfFame.Extensions.Model;
 using HallOfFame.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,17 +37,17 @@ namespace HallOfFame.Repositories
         /// <inheritdoc />
         public Person UpdatePerson(long id, Person updatingPerson)
         {
-            var foundedPerson = _context.Persons.SingleOrDefault(person => person.Id == id);
+            var foundedPerson = GetPerson(id);
 
             if (foundedPerson == null)
             {
                 return foundedPerson;
             }
 
-            foundedPerson.Name = updatingPerson.Name;
-            foundedPerson.DisplayName = updatingPerson.DisplayName;
-            foundedPerson.Skills = updatingPerson.Skills;
-
+            foundedPerson.Name = foundedPerson.Name.ToCheckingAndUpdatingString(updatingPerson.Name);
+            foundedPerson.DisplayName = foundedPerson.DisplayName.ToCheckingAndUpdatingString(updatingPerson.DisplayName);
+            foundedPerson.Skills  = foundedPerson.Skills.ToUpdateSkills(updatingPerson.Skills);
+            
             _context.Persons.Update(foundedPerson);
             
             return foundedPerson;
@@ -54,7 +56,7 @@ namespace HallOfFame.Repositories
         /// <inheritdoc />
         public Person DeletePerson(long id)
         {
-            var foundedPerson = _context.Persons.SingleOrDefault(person => person.Id == id);
+            var foundedPerson = GetPerson(id);
 
             if (foundedPerson == null)
             {
