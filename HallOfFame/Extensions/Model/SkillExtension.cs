@@ -63,5 +63,22 @@ namespace HallOfFame.Extensions.Model
             oldSkill.Name = oldSkill.Name.ToCheckingAndUpdatingString(updatedSkill.Name);
             oldSkill.Level = oldSkill.Level.ToCheckingAndUpdatingByte(updatedSkill.Level);
         }
+        
+        /// <summary>
+        ///     Маппинг модели навыков в DTO.
+        /// </summary>
+        /// <param name="skills">Навыки.</param>
+        /// <returns>DTO навыки.</returns>
+        public static IEnumerable<SkillDto> ToDto(this IEnumerable<Skill> skills)
+        {
+            var skillsDto = new List<SkillDto>();
+
+            foreach (var skillDto in skills)
+            {
+                skillsDto.Add(skillDto.ToDto());
+            }
+            
+            return skillsDto.AsEnumerable();
+        }
     }
 }

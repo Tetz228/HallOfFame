@@ -20,7 +20,7 @@ namespace HallOfFame.Extensions.Model
                 Id = person.Id,
                 Name = person.Name,
                 DisplayName = person.DisplayName,
-                Skills = person.Skills.Select(skill => skill.ToDto()).ToList()
+                Skills = person.Skills.ToDto()
             };
         }
         

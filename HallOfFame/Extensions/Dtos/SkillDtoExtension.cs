@@ -22,5 +22,22 @@ namespace HallOfFame.Extensions.Dtos
                 Level = skillDto.Level
             };
         }
+        
+        /// <summary>
+        ///     Маппинг DTO навыков в модель.
+        /// </summary>
+        /// <param name="skillsDto">DTO навыков.</param>
+        /// <returns>Навыки.</returns>
+        public static IEnumerable<Skill> ToModel(this IEnumerable<SkillDto> skillsDto)
+        {
+            var skills = new List<Skill>();
+
+            foreach (var skillDto in skillsDto)
+            {
+                skills.Add(skillDto.ToModel());
+            }
+            
+            return skills.AsEnumerable();
+        }
     }
 }

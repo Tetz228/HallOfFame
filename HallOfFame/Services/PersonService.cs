@@ -26,44 +26,38 @@ namespace HallOfFame.Services
         }
 
         /// <inheritdoc />
-        public async Task<Person> CreatePerson(PersonDto personDto)
+        public Person CreatePerson(PersonDto personDto)
         {
             if (personDto.Id != 0)
             {
                 return null;
             }
             
-            var person = await _personRepository.AddPerson(personDto.ToModel());
-
-            _personRepository.SaveChanges();
+            var person = _personRepository.AddPerson(personDto.ToModel());
 
             return person;
         }
 
         /// <inheritdoc />
-        public async Task<Person> UpdatePerson(long id, PersonDto personDto)
+        public Person UpdatePerson(long id, PersonDto personDto)
         {
-            var person = await _personRepository.UpdatePerson(id, personDto.ToModel());
+            var person = _personRepository.UpdatePerson(id, personDto.ToModel());
             
-            _personRepository.SaveChanges();
+            return person;
+        }
+
+        /// <inheritdoc />
+        public Person DeletePerson(long id)
+        {
+            var person = _personRepository.DeletePerson(id);
 
             return person;
         }
 
         /// <inheritdoc />
-        public async Task<Person> DeletePerson(long id)
+        public Person GetPerson(long id)
         {
-            var person = await _personRepository.DeletePerson(id);
-            
-            _personRepository.SaveChanges();
-
-            return person;
-        }
-
-        /// <inheritdoc />
-        public async Task<Person> GetPerson(long id)
-        {
-            var person = await _personRepository.GetPerson(id);
+            var person = _personRepository.GetPerson(id);
 
             if (person == null)
             {

@@ -13,7 +13,7 @@ namespace HallOfFame.Services.Interfaces
         /// </summary>
         /// <param name="personDto">DTO сотрудника.</param>
         /// <returns>DTO сотрудника.</returns>
-        public Task<Person> CreatePerson(PersonDto personDto);
+        public Person CreatePerson(PersonDto personDto);
         
         /// <summary>
         ///     Обновление сотрудника.
@@ -21,21 +21,21 @@ namespace HallOfFame.Services.Interfaces
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <param name="personDto">DTO сотрудника.</param>
         /// <returns>DTO сотрудника.</returns>
-        public Task<Person> UpdatePerson(long id, PersonDto personDto);
+        public Person UpdatePerson(long id, PersonDto personDto);
 
         /// <summary>
         ///     Удаление сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <returns>Сотрудник.</returns>
-        public Task<Person> DeletePerson(long id);
+        public Person DeletePerson(long id);
 
         /// <summary>
         ///     Получение сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <returns>DTO сотрудника.</returns>
-        public Task<Person> GetPerson(long id);
+        public Person GetPerson(long id);
 
         /// <summary>
         ///     Получение всех сотрудников.

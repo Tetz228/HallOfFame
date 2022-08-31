@@ -34,11 +34,13 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Person> AddPerson(Person person)
+        public Person AddPerson(Person person)
         {
             try
             {
-                await _context.Persons.AddAsync(person);
+                _context.Persons.Add(person);
+                
+                SaveChanges();
                 
                 return person;
             }
@@ -50,11 +52,11 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Person> UpdatePerson(long id, Person updatingPerson)
+        public Person UpdatePerson(long id, Person updatingPerson)
         {
             try
             {
-                var foundedPerson = await GetPerson(id);
+                var foundedPerson = GetPerson(id);
 
                 if (foundedPerson == null)
                 {
@@ -66,7 +68,9 @@ namespace HallOfFame.Repositories
                 foundedPerson.Skills  = foundedPerson.Skills.ToUpdateSkills(updatingPerson.Skills);
             
                 _context.Persons.Update(foundedPerson);
-            
+                
+                SaveChanges();
+                
                 return foundedPerson;
             }
             catch (Exception exception)
@@ -77,19 +81,22 @@ namespace HallOfFame.Repositories
         }
         
         /// <inheritdoc />
-        public async Task<Person> DeletePerson(long id)
+        public Person DeletePerson(long id)
         {
             try
             {
-                var foundedPerson = await GetPerson(id);
+                var foundedPerson = GetPerson(id);
 
                 if (foundedPerson == null)
                 {
                     return foundedPerson;
                 }
 
+                _context.Skills.RemoveRange(foundedPerson.Skills);
                 _context.Persons.Remove(foundedPerson);
-
+                
+                SaveChanges();
+                
                 return foundedPerson;
             }
             catch (Exception exception)
@@ -100,11 +107,11 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Person> GetPerson(long id)
+        public Person GetPerson(long id)
         {
             try
             {
-                var person = await _context.Persons.Include(person => person.Skills).SingleOrDefaultAsync(person => person.Id == id);
+                var person = _context.Persons.Include(person => person.Skills).SingleOrDefault(person => person.Id == id);
 
                 return person;
             }
@@ -132,11 +139,11 @@ namespace HallOfFame.Repositories
         }
         
         /// <inheritdoc />
-        public async void SaveChanges()
+        public void SaveChanges()
         {
             try
             {
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
             catch (Exception exception)
             {

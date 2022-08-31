@@ -12,7 +12,7 @@ namespace HallOfFame.Repositories.Interfaces
         /// </summary>
         /// <param name="person">Cотрудник.</param>
         /// <returns>Новый сотрудник.</returns>
-        public Task<Person> AddPerson(Person person);
+        public Person AddPerson(Person person);
         
         /// <summary>
         ///     Обновить сотрудника.
@@ -20,21 +20,21 @@ namespace HallOfFame.Repositories.Interfaces
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <param name="updatingPerson">Cотрудник для обновления.</param>
         /// <returns>Обновленный сотрудник.</returns>
-        public Task<Person> UpdatePerson(long id, Person updatingPerson);
+        public Person UpdatePerson(long id, Person updatingPerson);
 
         /// <summary>
         ///     Удалить сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <returns>Удаленный сотрудник.</returns>
-        public Task<Person> DeletePerson(long id);
+        public Person DeletePerson(long id);
 
         /// <summary>
         ///     Получить сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <returns>Cотрудник.</returns>
-        public Task<Person> GetPerson(long id);
+        public Person GetPerson(long id);
 
         /// <summary>
         ///     Получить всех сотрудников.

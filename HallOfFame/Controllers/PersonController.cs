@@ -8,7 +8,7 @@ namespace HallOfFame.Controllers
     /// <summary>
     ///     Контроллер для взаимодействия с сотрудниками.
     /// </summary>
-    [Route("[controller]/[action]")]
+    [Route("api/v1/")]
     [ApiController]
     public class PersonController : ControllerBase
     {
@@ -34,9 +34,9 @@ namespace HallOfFame.Controllers
         [HttpPost("person")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PersonDto>> CreatePerson(PersonDto personDto)
+        public ActionResult<PersonDto> CreatePerson(PersonDto personDto)
         {
-            var person = await _personService.CreatePerson(personDto);
+            var person = _personService.CreatePerson(personDto);
 
             if (person == null)
             {
@@ -55,9 +55,9 @@ namespace HallOfFame.Controllers
         [HttpPut("person/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PersonDto>> UpdatePerson(long id, PersonDto personDto)
+        public ActionResult<PersonDto> UpdatePerson(long id, PersonDto personDto)
         {
-            var person = await _personService.UpdatePerson(id, personDto);
+            var person = _personService.UpdatePerson(id, personDto);
 
             if (person == null)
             {
@@ -74,9 +74,9 @@ namespace HallOfFame.Controllers
         [HttpDelete("person/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> DeletePerson(long id)
+        public ActionResult DeletePerson(long id)
         {
-            var person = await _personService.DeletePerson(id);
+            var person = _personService.DeletePerson(id);
 
             if (person == null)
             {
@@ -95,9 +95,9 @@ namespace HallOfFame.Controllers
         [HttpGet("person/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PersonDto>> GetPerson(long id)
+        public ActionResult<PersonDto> GetPerson(long id)
         {
-            var person = await _personService.GetPerson(id);
+            var person = _personService.GetPerson(id);
 
             if (person == null)
             {
