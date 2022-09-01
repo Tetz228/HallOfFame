@@ -105,7 +105,7 @@ namespace HallOfFame.Repositories
         {
             try
             {
-                return _context.Persons.Include(person => person.Skills).AsEnumerable();;
+                return _context.Persons.Include(person => person.Skills).AsEnumerable();
             }
             catch (Exception exception)
             {
@@ -114,8 +114,10 @@ namespace HallOfFame.Repositories
             }
         }
         
-        /// <inheritdoc />
-        public void SaveChanges()
+        /// <summary>
+        ///     Сохранение изменений.
+        /// </summary>
+        private void SaveChanges()
         {
             try
             {

@@ -21,8 +21,7 @@ namespace HallOfFame.Db.Model
         ///     Название навыка.
         /// </summary>
         [Column("name", TypeName = "nvarchar(30)")]
-        [StringLength(30, MinimumLength = 2,
-            ErrorMessage = "Длина имени должна быть в диапазоне от {2} до {1} символов.")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Длина имени должна быть в диапазоне от {2} до {1} символов.")]
         [Required(ErrorMessage = "Поле не может быть пустым.")]
         public string Name { get; set; }
 

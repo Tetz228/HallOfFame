@@ -90,7 +90,6 @@ namespace HallOfFame.Controllers
         ///     Получение сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <param name="personDto">DTO сотрудника.</param>
         /// <returns>Cотрудник.</returns>
         [HttpGet("person/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

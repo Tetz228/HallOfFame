@@ -40,10 +40,5 @@ namespace HallOfFame.Repositories.Interfaces
         /// </summary>
         /// <returns>Cотрудники.</returns>
         public IEnumerable<Person> GetAll();
-
-        /// <summary>
-        ///     Сохранение изменений.
-        /// </summary>
-        public void SaveChanges();
     }
 }

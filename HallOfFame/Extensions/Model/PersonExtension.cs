@@ -27,8 +27,8 @@ namespace HallOfFame.Extensions.Model
        /// <summary>
        ///      Маппинг модели сотрудников в DTO.
        /// </summary>
-       /// <param name="personsModel">Сотрудники</param>
-       /// <returns>DTO сотрудники</returns>
+       /// <param name="personsModel">Сотрудники.</param>
+       /// <returns>DTO сотрудники.</returns>
         public static IEnumerable<PersonDto> ToDto(this IEnumerable<Person> personsModel)
         {
             return personsModel.Select(person => person.ToDto()).AsEnumerable();

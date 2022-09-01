@@ -16,8 +16,7 @@ namespace HallOfFame.Dtos.Skill
         /// <summary>
         ///     Название навыка.
         /// </summary>
-        [StringLength(30, MinimumLength = 2,
-            ErrorMessage = "Длина наименования должна быть в диапазоне от {2} до {1} символов.")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Длина наименования должна быть в диапазоне от {2} до {1} символов.")]
         [Required(ErrorMessage = "Поле не может быть пустым.")]
         public string Name { get; set; }
 
