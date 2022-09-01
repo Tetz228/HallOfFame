@@ -1,7 +1,5 @@
 ﻿using HallOfFame.Db;
 using HallOfFame.Db.Model;
-using HallOfFame.Extensions.DataTypes;
-using HallOfFame.Extensions.Model;
 using HallOfFame.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +32,7 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public Person AddPerson(Person person)
+        public Person AddAndSavePerson(Person person)
         {
             try
             {
@@ -52,21 +50,10 @@ namespace HallOfFame.Repositories
         }
 
         /// <inheritdoc />
-        public Person UpdatePerson(long id, Person updatingPerson)
+        public Person UpdateAndSavePerson(Person foundedPerson)
         {
             try
             {
-                var foundedPerson = GetPerson(id);
-
-                if (foundedPerson == null)
-                {
-                    return foundedPerson;
-                }
-
-                foundedPerson.Name = foundedPerson.Name.ToCheckingAndUpdatingString(updatingPerson.Name);
-                foundedPerson.DisplayName = foundedPerson.DisplayName.ToCheckingAndUpdatingString(updatingPerson.DisplayName);
-                foundedPerson.Skills  = foundedPerson.Skills.ToUpdateSkills(updatingPerson.Skills);
-            
                 _context.Persons.Update(foundedPerson);
                 
                 SaveChanges();
@@ -81,17 +68,10 @@ namespace HallOfFame.Repositories
         }
         
         /// <inheritdoc />
-        public Person DeletePerson(long id)
+        public Person DeleteAndSavePerson(Person foundedPerson)
         {
             try
             {
-                var foundedPerson = GetPerson(id);
-
-                if (foundedPerson == null)
-                {
-                    return foundedPerson;
-                }
-
                 _context.Skills.RemoveRange(foundedPerson.Skills);
                 _context.Persons.Remove(foundedPerson);
                 
@@ -111,9 +91,7 @@ namespace HallOfFame.Repositories
         {
             try
             {
-                var person = _context.Persons.Include(person => person.Skills).SingleOrDefault(person => person.Id == id);
-
-                return person;
+                return _context.Persons.Include(person => person.Skills).SingleOrDefault(person => person.Id == id);
             }
             catch (Exception exception)
             {
@@ -127,9 +105,7 @@ namespace HallOfFame.Repositories
         {
             try
             {
-                var persons = _context.Persons.Include(person => person.Skills).AsEnumerable();
-
-                return persons;
+                return _context.Persons.Include(person => person.Skills).AsEnumerable();;
             }
             catch (Exception exception)
             {

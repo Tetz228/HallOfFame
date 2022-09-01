@@ -1,6 +1,5 @@
 ﻿using HallOfFame.Db.Model;
 using HallOfFame.Dtos.Skill;
-using HallOfFame.Extensions.DataTypes;
 
 namespace HallOfFame.Extensions.Model
 {
@@ -60,8 +59,8 @@ namespace HallOfFame.Extensions.Model
         /// <param name="updatedSkill">Обновленный навык.</param>
         private static void UpdateSkill(Skill oldSkill, Skill updatedSkill)
         {
-            oldSkill.Name = oldSkill.Name.ToCheckingAndUpdatingString(updatedSkill.Name);
-            oldSkill.Level = oldSkill.Level.ToCheckingAndUpdatingByte(updatedSkill.Level);
+            oldSkill.Name = updatedSkill.Name;
+            oldSkill.Level = updatedSkill.Level;
         }
     }
 }

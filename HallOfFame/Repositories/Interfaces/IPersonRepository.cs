@@ -8,26 +8,25 @@ namespace HallOfFame.Repositories.Interfaces
     public interface IPersonRepository
     {
         /// <summary>
-        ///     Добавить нового сотрудника.
+        ///     Добавить и сохранить нового сотрудника.
         /// </summary>
         /// <param name="person">Cотрудник.</param>
         /// <returns>Новый сотрудник.</returns>
-        public Person AddPerson(Person person);
+        public Person AddAndSavePerson(Person person);
         
         /// <summary>
-        ///     Обновить сотрудника.
+        ///     Обновить и сохранить изменения сотрудника.
         /// </summary>
-        /// <param name="id">Идентификатор сотрудника.</param>
-        /// <param name="updatingPerson">Cотрудник для обновления.</param>
+        /// <param name="foundedPerson">Найденный сотрудник.</param>
         /// <returns>Обновленный сотрудник.</returns>
-        public Person UpdatePerson(long id, Person updatingPerson);
+        public Person UpdateAndSavePerson(Person foundedPerson);
 
         /// <summary>
-        ///     Удалить сотрудника.
+        ///     Удалить и сохранить изменения сотрудника.
         /// </summary>
-        /// <param name="id">Идентификатор сотрудника.</param>
+        /// <param name="foundedPerson">Найденный сотрудник.</param>
         /// <returns>Удаленный сотрудник.</returns>
-        public Person DeletePerson(long id);
+        public Person DeleteAndSavePerson(Person foundedPerson);
 
         /// <summary>
         ///     Получить сотрудника.

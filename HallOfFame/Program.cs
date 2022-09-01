@@ -20,10 +20,10 @@ try
         genOptions.SwaggerDoc("v1", new OpenApiInfo {Title = "HallOfFame", Version = "v1"});
     });
     builder.Services.AddControllers();
-    builder.Services.AddDbContext<HallOfFameContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddDbContext<HallOfFameContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.AddScoped<IPersonService, PersonService>();
     builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+    builder.Services.AddScoped<ISkillRepository, SkillRepository>();
     //Подключение логирования.
 
     builder.Logging.ClearProviders();
@@ -43,7 +43,10 @@ try
     }
 
     app.UseRouting();
-    app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
     app.Run();
 }
 catch (Exception exception)

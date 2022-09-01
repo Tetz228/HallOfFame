@@ -61,7 +61,7 @@ namespace HallOfFame.Controllers
 
             if (person == null)
             {
-                return NotFound(person);
+                return NotFound();
             }
 
             return Ok(person.ToDto());
@@ -101,7 +101,7 @@ namespace HallOfFame.Controllers
 
             if (person == null)
             {
-                return NotFound(person);
+                return NotFound();
             }
 
             return Ok(person.ToDto());
@@ -120,7 +120,7 @@ namespace HallOfFame.Controllers
 
             if (!persons.Any())
             {
-                return NotFound(persons);
+                return NoContent();
             }
 
             return Ok(persons.ToDto());

@@ -33,7 +33,6 @@ namespace HallOfFame.Dtos.Person
         /// <summary>
         ///     Навыки сотрудника.
         /// </summary>
-        [Required(ErrorMessage = "Поле не может быть пустым.")]
         public IEnumerable<SkillDto> Skills { get; set; }
     }
 }

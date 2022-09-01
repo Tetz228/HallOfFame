@@ -1,6 +1,7 @@
 ﻿using HallOfFame.Db.Model;
 using HallOfFame.Dtos.Person;
 using HallOfFame.Extensions.Dtos;
+using HallOfFame.Extensions.Model;
 using HallOfFame.Repositories.Interfaces;
 using HallOfFame.Services.Interfaces;
 
@@ -17,12 +18,19 @@ namespace HallOfFame.Services
         private readonly IPersonRepository _personRepository;
 
         /// <summary>
+        ///     Репозитории для взаимодействия с навыками.
+        /// </summary>
+        private readonly ISkillRepository _skillRepository;
+
+        /// <summary>
         ///     Сервисы для взаимодействия с сотрудниками.
         /// </summary>
         /// <param name="personRepository">Репозитории для взаимодействия с сотрудниками.</param>
-        public PersonService(IPersonRepository personRepository)
+        /// <param name="skillRepository">Репозитории для взаимодействия с навыками.</param>
+        public PersonService(IPersonRepository personRepository, ISkillRepository skillRepository)
         {
             _personRepository = personRepository;
+            _skillRepository = skillRepository;
         }
 
         /// <inheritdoc />
@@ -33,38 +41,42 @@ namespace HallOfFame.Services
                 return null;
             }
             
-            var person = _personRepository.AddPerson(personDto.ToModel());
+            var person = _personRepository.AddAndSavePerson(personDto.ToModel());
 
             return person;
         }
 
         /// <inheritdoc />
-        public Person UpdatePerson(long id, PersonDto personDto)
+        public Person UpdatePerson(long id, PersonDto updatingPersonDto)
         {
-            var person = _personRepository.UpdatePerson(id, personDto.ToModel());
+            var foundedPerson = _personRepository.GetPerson(id);
+
+            if (foundedPerson == null)
+            {
+                return null;
+            }
+
+            var skillsForUpdate = _skillRepository.DeleteAndSaveSkills(foundedPerson.Skills, updatingPersonDto.Skills);
             
-            return person;
+            foundedPerson.Name = updatingPersonDto.Name;
+            foundedPerson.DisplayName = updatingPersonDto.DisplayName;
+            foundedPerson.Skills = foundedPerson.Skills.ToUpdateSkills(skillsForUpdate);
+            
+            return _personRepository.UpdateAndSavePerson(foundedPerson);
         }
 
         /// <inheritdoc />
         public Person DeletePerson(long id)
         {
-            var person = _personRepository.DeletePerson(id);
+            var foundedPerson = _personRepository.GetPerson(id);
 
-            return person;
+            return foundedPerson == null ? null : _personRepository.DeleteAndSavePerson(foundedPerson);
         }
 
         /// <inheritdoc />
         public Person GetPerson(long id)
         {
-            var person = _personRepository.GetPerson(id);
-
-            if (person == null)
-            {
-                return null;
-            }
-
-            return person;
+            return _personRepository.GetPerson(id);
         }
 
         /// <inheritdoc />

@@ -12,16 +12,16 @@ namespace HallOfFame.Services.Interfaces
         ///     Создание нового сотрудника.
         /// </summary>
         /// <param name="personDto">DTO сотрудника.</param>
-        /// <returns>DTO сотрудника.</returns>
+        /// <returns>Сотрудник.</returns>
         public Person CreatePerson(PersonDto personDto);
         
         /// <summary>
         ///     Обновление сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <param name="personDto">DTO сотрудника.</param>
-        /// <returns>DTO сотрудника.</returns>
-        public Person UpdatePerson(long id, PersonDto personDto);
+        /// <param name="updatingPersonDto">DTO сотрудника.</param>
+        /// <returns>Сотрудник.</returns>
+        public Person UpdatePerson(long id, PersonDto updatingPersonDto);
 
         /// <summary>
         ///     Удаление сотрудника.
@@ -34,7 +34,7 @@ namespace HallOfFame.Services.Interfaces
         ///     Получение сотрудника.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
-        /// <returns>DTO сотрудника.</returns>
+        /// <returns>Сотрудник.</returns>
         public Person GetPerson(long id);
 
         /// <summary>
